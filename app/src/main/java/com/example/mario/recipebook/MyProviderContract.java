@@ -9,9 +9,11 @@ import android.net.Uri;
 public class MyProviderContract  {
     public static final String AUTHORITY="com.example.mario.recipebook.CProvider";
 
-    public static final Uri RECIPE_URI = Uri.parse("content://"+AUTHORITY+"/recipe");
+    public static final Uri RECIPE_URI = Uri.parse("content://"+AUTHORITY+"/recipeTable");
+    public static final Uri RECIPE_ID_URI=Uri.parse("content://"+AUTHORITY+"/recipeTable/#");
 
     public static final String _ID="_id";
     public static final String TITLE="title";
-    public static final String INTRODUCTION="introduction";
+    public static final String INSTRUCTION="instruction";
 }
+

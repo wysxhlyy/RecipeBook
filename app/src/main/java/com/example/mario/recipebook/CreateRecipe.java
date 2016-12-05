@@ -32,7 +32,7 @@ public class CreateRecipe extends AppCompatActivity {
 
                 ContentValues newRecipe=new ContentValues();
                 newRecipe.put(MyProviderContract.TITLE,title);
-                newRecipe.put(MyProviderContract.INTRODUCTION,intro);
+                newRecipe.put(MyProviderContract.INSTRUCTION,intro);
 
                 getContentResolver().insert(MyProviderContract.RECIPE_URI,newRecipe);
 

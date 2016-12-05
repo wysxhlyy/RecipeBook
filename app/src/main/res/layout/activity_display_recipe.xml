@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
         >
 
         <TextView
@@ -49,6 +50,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
         >
 
         <TextView
@@ -60,9 +62,36 @@
 
         <TextView
             android:layout_width="350dp"
-            android:layout_height="280dp"
+            android:layout_height="350dp"
             android:textSize="20dp"
-            android:id="@+id/chosenRecipeIns"
+            android:id="@+id/chosenRecipeIntro"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/deleteRecipe"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:id="@+id/editRecipe"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:id="@+id/back"
             />
 
     </LinearLayout>

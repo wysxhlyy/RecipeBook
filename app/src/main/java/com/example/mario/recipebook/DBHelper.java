@@ -19,13 +19,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("g54mdp", "onCreate DB");
 
-        db.execSQL("CREATE TABLE recipe("+
-                "id INTEGER PRIMARY KEY AUTOINCREMENT ,"+
+        db.execSQL("CREATE TABLE recipeTable("+
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT ,"+
                 "title VARCHAR(128) NOT NULL ,"+
-                "introduction VARCHAR(128) NOT NULL"+
+                "instruction VARCHAR(128) NOT NULL"+
         ");");
 
-        db.execSQL("INSERT INTO recipe(title,introduction) VALUES ('fanqiechaodan','Put in potato and egg')");
+        db.execSQL("INSERT INTO recipeTable(title,instruction) VALUES ('Recipe Id','Recipe Title')");
 
    }
 
