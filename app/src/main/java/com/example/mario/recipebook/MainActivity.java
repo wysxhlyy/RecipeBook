@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
         };
 
         String[] columnsToDisplay=new String[]{
-                MyProviderContract._ID,
+                //MyProviderContract._ID,
                 MyProviderContract.TITLE,
         };
 
         int[] colResIds=new int[]{
                 R.id.value1,
-                R.id.value2,
+                //R.id.value2,
         };
 
         Cursor cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);

@@ -1,19 +1,23 @@
 package com.example.mario.recipebook;
 
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DisplayRecipe extends AppCompatActivity implements View.OnClickListener {
 
     private int chosenRecipe;
+    private Cursor cursor;
 
     private TextView title;
     private TextView intro;
@@ -38,13 +42,13 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
                 MyProviderContract.TITLE,
                 MyProviderContract.INSTRUCTION
         };
-        Cursor cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);
+        cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);
         for (int i=0;i<chosenRecipe;i++){
             cursor.moveToNext();
         }
-        String recipeTitle =cursor.getString(cursor.getColumnIndex("title"));
+        String recipeTitle =cursor.getString(cursor.getColumnIndex(MyProviderContract.TITLE));
         title.setText(recipeTitle);
-        String recipeIntro=cursor.getString(cursor.getColumnIndex("instruction"));
+        String recipeIntro=cursor.getString(cursor.getColumnIndex(MyProviderContract.INSTRUCTION));
         intro.setText(recipeIntro);
 
         deleteRecipe.setOnClickListener(this);
@@ -86,11 +90,30 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
     }
 
     public void deleteRecipe(){
-        int chosenID=chosenRecipe+6;
-        ContentUris uris=new ContentUris();
-        Uri editedUri=uris.withAppendedId(MyProviderContract.RECIPE_URI,chosenID);
-        getContentResolver().delete(editedUri,MyProviderContract._ID+"=?",null);
-        Intent intent=new Intent(DisplayRecipe.this,MainActivity.class);
-        startActivity(intent);
+        AlertDialog.Builder builder=new AlertDialog.Builder(DisplayRecipe.this);
+        builder.setTitle("Delete");
+        builder.setMessage("Are you sure to delete this recipe?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int chosenID=cursor.getInt(cursor.getColumnIndex(MyProviderContract._ID));
+                ContentUris uris=new ContentUris();
+                Uri editedUri=uris.withAppendedId(MyProviderContract.RECIPE_URI,chosenID);
+                getContentResolver().delete(editedUri,MyProviderContract._ID+"=?",null);
+                Intent intent=new Intent(DisplayRecipe.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(DisplayRecipe.this,"Nothing Changed",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog dialog=builder.create();
+        dialog.show();
+
     }
 }

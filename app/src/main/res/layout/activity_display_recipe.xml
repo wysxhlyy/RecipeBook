@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:text="View Recipe"
         android:textSize="30dp"
+        android:textColor="@color/colorTitle"
         android:textAlignment="center"
         />
 
@@ -33,12 +34,14 @@
             android:layout_height="wrap_content"
             android:text="Title:"
             android:textSize="20dp"
+            android:textColor="@color/focus"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:textColor="@color/black"
             android:layout_marginLeft="20dp"
             android:id="@+id/chosenRecipeTitle"
             />
@@ -58,25 +61,34 @@
             android:layout_height="wrap_content"
             android:text="Instructions:"
             android:textSize="20dp"
+            android:textColor="@color/focus"
             />
 
         <TextView
             android:layout_width="350dp"
-            android:layout_height="350dp"
+            android:layout_height="320dp"
+            android:textColor="@color/black"
             android:textSize="20dp"
+            android:padding="8dp"
             android:id="@+id/chosenRecipeIntro"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/textview_bg"
             />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        >
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
+            android:layout_marginRight="10dp"
             android:id="@+id/deleteRecipe"
             />
 
@@ -90,6 +102,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="Back"
             android:id="@+id/back"
             />

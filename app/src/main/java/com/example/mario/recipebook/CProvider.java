@@ -33,7 +33,7 @@ public class CProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.d("g53mdp","Contentprovider oncreate");
-        this.dbHelper=new DBHelper(this.getContext(),"recipesDB",null,7);
+        this.dbHelper=new DBHelper(this.getContext(),"cwrecipeDB",null,7);
         return true;
     }
 

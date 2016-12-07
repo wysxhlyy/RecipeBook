@@ -8,17 +8,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="recipeID"
-        android:textSize="20dp"
+        android:textSize="25dp"
+        android:textAlignment="center"
         android:id="@+id/value1"
-        android:layout_weight="0.5" />
+        android:layout_weight="1"
+        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="recipeTitle"
-        android:textSize="20dp"
-        android:id="@+id/value2"
-        android:layout_weight="0.5" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="recipeTitle"-->
+        <!--android:textSize="20dp"-->
+        <!--android:id="@+id/value2"-->
+        <!--android:layout_weight="0.5" />-->
 
 
 </LinearLayout>

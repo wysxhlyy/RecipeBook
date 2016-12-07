@@ -19,13 +19,18 @@
         android:textColor="@color/colorTitle"
         android:textAlignment="center"
         android:textSize="30dp"
+        android:layout_gravity="center_horizontal"
         />
 
     <ListView
-        android:layout_width="350dp"
+        android:layout_width="250dp"
         android:layout_height="400dp"
         android:id="@+id/recipes"
         android:layout_marginTop="30dp"
+        android:divider="@color/black"
+        android:dividerHeight="1px"
+        android:layout_gravity="center_horizontal"
+
         >
 
 
@@ -34,9 +39,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add New Recipe"
+        android:text="Add"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="monospace"
         android:id="@+id/add"
-        android:layout_marginLeft="120dp"
         android:layout_marginTop="30dp"
+        android:background="@drawable/round_btn"
         />
 </LinearLayout>
