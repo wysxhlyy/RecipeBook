@@ -1,6 +1,7 @@
 package com.example.mario.recipebook;
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,12 +21,12 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
     private int chosenRecipe;
     private Cursor cursor;
 
-    private TextView title;
-    private TextView intro;
+    private EditText title;
+    private EditText intro;
 
     private Button editRecipe;
     private Button deleteRecipe;
-    private Button back;
+    private Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +54,19 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
         intro.setText(recipeIntro);
 
         deleteRecipe.setOnClickListener(this);
-        back.setOnClickListener(this);
+        editRecipe.setOnClickListener(this);
 
 
 
     }
 
     public void initialComponent(){
-        title=(TextView)findViewById(R.id.chosenRecipeTitle);
-        intro=(TextView)findViewById(R.id.chosenRecipeIntro);
+        title=(EditText) findViewById(R.id.chosenRecipeTitle);
+        intro=(EditText) findViewById(R.id.chosenRecipeIntro);
 
         editRecipe=(Button)findViewById(R.id.editRecipe);
         deleteRecipe=(Button)findViewById(R.id.deleteRecipe);
-        back=(Button)findViewById(R.id.back);
+        save=(Button)findViewById(R.id.save);
     }
 
 
@@ -78,14 +80,43 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
             case R.id.deleteRecipe:
                 deleteRecipe();
                 break;
-            case R.id.back:
-                Intent intent=new Intent(DisplayRecipe.this,MainActivity.class);
-                startActivity(intent);
+            case R.id.save:
+                updateRecipe();
+                title.setFocusable(false);
+                intro.setFocusable(false);
+                save.setEnabled(false);
                 break;
         }
     }
 
     public void editRecipe(){
+        title.setFocusableInTouchMode(true);
+        intro.setFocusableInTouchMode(true);
+        save.setEnabled(true);
+        save.setOnClickListener(this);
+    }
+
+    public void updateRecipe(){
+        Log.d("g54mdp","Updating");
+        try{
+            int chosenID=cursor.getInt(cursor.getColumnIndex(MyProviderContract._ID));
+            ContentUris uris=new ContentUris();
+            Uri editedUri=uris.withAppendedId(MyProviderContract.RECIPE_URI,chosenID);
+
+            String editTitle=title.getText().toString();
+            String editintro=intro.getText().toString();
+
+            ContentValues editRecipe=new ContentValues();
+            editRecipe.put(MyProviderContract.TITLE,editTitle);
+            editRecipe.put(MyProviderContract.INSTRUCTION,editintro);
+            getContentResolver().update(editedUri,editRecipe,MyProviderContract._ID+"=?",null);
+
+            Toast.makeText(this,"Recipe Successfully Updated",Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this,"Update Failed",Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 

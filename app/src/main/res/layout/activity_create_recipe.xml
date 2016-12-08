@@ -67,7 +67,6 @@
             android:textSize="20dp"
             android:id="@+id/intro"
             android:layout_marginTop="10dp"
-
             android:scrollHorizontally="true"
             android:gravity="left"
             style="@style/edittext_style"

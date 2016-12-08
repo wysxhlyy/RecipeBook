@@ -23,6 +23,7 @@ public class CProvider extends ContentProvider {
     static final int RECIPES=1;
     static final int RECIPE_ID=2;
     static final String TABLE_NAME="recipeTable";
+    static final String DB_NAME="cwrecipeDB";
 
     static {
         uriMatcher=new UriMatcher(UriMatcher.NO_MATCH);
@@ -33,7 +34,7 @@ public class CProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.d("g53mdp","Contentprovider oncreate");
-        this.dbHelper=new DBHelper(this.getContext(),"cwrecipeDB",null,7);
+        this.dbHelper=new DBHelper(this.getContext(),DB_NAME,null,7);
         return true;
     }
 
@@ -87,12 +88,20 @@ public class CProvider extends ContentProvider {
         }
 
         getContext().getContentResolver().notifyChange(uri,null);
-
         return 0;
     }
 
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+        SQLiteDatabase db=dbHelper.getWritableDatabase();
+
+        switch (uriMatcher.match(uri)){
+            case RECIPE_ID:
+                String updateId=uri.getPathSegments().get(1);
+                db.update(TABLE_NAME,contentValues,MyProviderContract._ID+"=?",new String[]{updateId});
+        }
+
+        getContext().getContentResolver().notifyChange(uri,null);
         return 0;
     }
 }
