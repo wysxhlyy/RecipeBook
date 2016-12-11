@@ -67,18 +67,36 @@
     </ListView>
 
 
-
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
-        android:textColor="@color/white"
-        android:textSize="20dp"
         android:layout_gravity="center_horizontal"
-        android:fontFamily="monospace"
-        android:id="@+id/add"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/round_btn"
-        />
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:fontFamily="monospace"
+            android:id="@+id/add"
+            android:background="@drawable/round_btn"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete All"
+            android:textSize="13dp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/deleteAll"
+            android:background="@drawable/delete_btn"
+            />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

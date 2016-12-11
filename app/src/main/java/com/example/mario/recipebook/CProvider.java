@@ -15,6 +15,11 @@ import android.util.Log;
  * Created by mario on 2016/12/1.
  */
 
+/*
+    A typical content provider is built for current and future use.
+    Some function has no use.
+ */
+
 public class CProvider extends ContentProvider {
 
     private DBHelper dbHelper;
@@ -22,13 +27,13 @@ public class CProvider extends ContentProvider {
 
     static final int RECIPES=1;
     static final int RECIPE_ID=2;
-    static final String TABLE_NAME="recipeTable";
-    static final String DB_NAME="cwrecipeDB";
+    static final String TABLE_NAME="recipeTable";       //Define the table name.
+    static final String DB_NAME="cwrecipeDB";           //Define the name of database.
 
     static {
         uriMatcher=new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(MyProviderContract.AUTHORITY,"recipeTable",RECIPES);
-        uriMatcher.addURI(MyProviderContract.AUTHORITY,"recipeTable/#",RECIPE_ID);
+        uriMatcher.addURI(MyProviderContract.AUTHORITY,"recipeTable",RECIPES); //Used by all the recipes in table.
+        uriMatcher.addURI(MyProviderContract.AUTHORITY,"recipeTable/#",RECIPE_ID); //Used by a specific recipe in table.
     }
 
     @Override
@@ -59,10 +64,8 @@ public class CProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         SQLiteDatabase db=dbHelper.getWritableDatabase();
-
         long id=db.insert(TABLE_NAME,null,contentValues);
         db.close();
-
         if(id>0){
             Uri nu= ContentUris.withAppendedId(uri,id);
             Log.d("g53mdp",nu.toString());
@@ -74,16 +77,18 @@ public class CProvider extends ContentProvider {
     }
 
     @Override
+    /*
+        case RECIPES delete all the recipes in table.
+        case RECIPE_ID delete the recipe according to id.
+     */
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db=dbHelper.getWritableDatabase();
-
         switch (uriMatcher.match(uri)){
-           /* case RECIPES:
+            case RECIPES:
                 db.delete(TABLE_NAME,selection,selectionArgs);
-                break;*/
+                break;
             case RECIPE_ID:
                 String deleteId=uri.getPathSegments().get(1);
-                Log.d("info",deleteId+"");
                 db.delete(TABLE_NAME,MyProviderContract._ID+"=?",new String[]{deleteId});
         }
 

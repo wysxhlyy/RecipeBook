@@ -10,7 +10,6 @@ public class MyProviderContract  {
     public static final String AUTHORITY="com.example.mario.recipebook.CProvider";
 
     public static final Uri RECIPE_URI = Uri.parse("content://"+AUTHORITY+"/recipeTable");
-    public static final Uri RECIPE_ID_URI=Uri.parse("content://"+AUTHORITY+"/recipeTable/#");
 
     public static final String _ID="_id";
     public static final String TITLE="title";

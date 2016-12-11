@@ -15,6 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context,name,factory,version);
         Log.d("g54mdp", "DBHelper");
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("g54mdp", "onCreate DB");
@@ -24,8 +25,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 "title VARCHAR(128) NOT NULL ,"+
                 "instruction VARCHAR(128) NOT NULL"+
         ");");
-
-
    }
 
     @Override

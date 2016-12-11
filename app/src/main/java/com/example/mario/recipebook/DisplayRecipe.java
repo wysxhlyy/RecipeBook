@@ -43,18 +43,18 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
             displayByTitle();
         }
 
-
         deleteRecipe.setOnClickListener(this);
         editRecipe.setOnClickListener(this);
-
-
-
     }
 
+
+    /*
+       If the user click the recipe in listview,system will use this function
+       to get the information of recipe.
+     */
     public void displayById(){
         Bundle bundle=getIntent().getExtras();
         chosenRecipe=bundle.getInt("chosenRecipe")+1;
-        Log.d("g53mdp","chosen Recipte: "+chosenRecipe);
 
         initialComponent();
 
@@ -69,10 +69,14 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
         intro.setText(recipeIntro);
     }
 
+
+    /*
+        If the user search the recipe title, system will use this function to get
+    the information of recipe.
+     */
     public void displayByTitle(){
         chosenRecipeTitle=getIntent().getStringExtra("recipeTitle");
         initialComponent();
-
         getAllRecipes();
 
         while (cursor.moveToNext()){
@@ -81,12 +85,12 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
                 recipeIntro=cursor.getString(cursor.getColumnIndex(MyProviderContract.INSTRUCTION));
             }
         }
-
         title.setText(recipeTitle);
         intro.setText(recipeIntro);
 
     }
 
+    //get all the recipes from the database.
     public void getAllRecipes(){
         String[] projection=new String[]{
                 MyProviderContract._ID,
@@ -107,7 +111,6 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
     }
 
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -122,10 +125,14 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
                 title.setFocusable(false);
                 intro.setFocusable(false);
                 save.setEnabled(false);
+                Intent intent=new Intent(DisplayRecipe.this,MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }
 
+
+    //User could choose to edit the recipe.
     public void editRecipe(){
         title.setFocusableInTouchMode(true);
         intro.setFocusableInTouchMode(true);
@@ -133,8 +140,12 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
         save.setOnClickListener(this);
     }
 
+
+    /*
+        After user edit the recipe, the button 'save will be allowed to click, click this button
+    could update the recipe's information.
+    */
     public void updateRecipe(){
-        Log.d("g54mdp","Updating");
         try{
             int chosenID=cursor.getInt(cursor.getColumnIndex(MyProviderContract._ID));
             ContentUris uris=new ContentUris();
@@ -157,6 +168,8 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
 
     }
 
+    //Click the 'delete' button to delete a specific recipe.
+    //Remind user before delete the recipe.
     public void deleteRecipe(){
         AlertDialog.Builder builder=new AlertDialog.Builder(DisplayRecipe.this);
         builder.setTitle("Delete");

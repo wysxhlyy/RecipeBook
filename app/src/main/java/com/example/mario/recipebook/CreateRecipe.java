@@ -34,6 +34,7 @@ public class CreateRecipe extends AppCompatActivity {
                 newRecipe.put(MyProviderContract.TITLE,title);
                 newRecipe.put(MyProviderContract.INSTRUCTION,intro);
 
+                //Insert the title and introduction got from the EditText field.
                 getContentResolver().insert(MyProviderContract.RECIPE_URI,newRecipe);
 
                 Intent intent=new Intent(CreateRecipe.this,MainActivity.class);
