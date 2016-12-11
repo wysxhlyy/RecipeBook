@@ -25,7 +25,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 "instruction VARCHAR(128) NOT NULL"+
         ");");
 
-        db.execSQL("INSERT INTO recipeTable(title,instruction) VALUES ('Recipe Id','Recipe Title')");
 
    }
 

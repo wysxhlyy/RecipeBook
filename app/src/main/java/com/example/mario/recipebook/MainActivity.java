@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -15,12 +17,19 @@ public class MainActivity extends AppCompatActivity {
 
     private SimpleCursorAdapter dataAdapter;
     private Button add;
+    private Button searchButton;
     private ListView listView;
+    private AutoCompleteTextView search;
+    private String[] recipesInDB;
+    private int recipesSize;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initialComponent();
 
         String[] projection=new String[]{
                 MyProviderContract._ID,
@@ -37,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 //R.id.value2,
         };
 
-        Cursor cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);
+        cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);
 
         dataAdapter=new SimpleCursorAdapter(
                 this,
@@ -48,12 +57,11 @@ public class MainActivity extends AppCompatActivity {
                 0
         );
 
-        listView=(ListView)findViewById(R.id.recipes);
         listView.setAdapter(dataAdapter);
 
         chooseRecipe();
+        searchRecipe();
 
-        add=(Button)findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +69,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+
+    public void searchRecipe(){
+        recipesSize=cursor.getCount();
+        Log.d("g53mdp","recipesSize:"+cursor.getCount());
+        recipesInDB=new String[recipesSize];
+
+        int count=0;
+        while(cursor.moveToNext()){
+            recipesInDB[count] =cursor.getString(cursor.getColumnIndex(MyProviderContract.TITLE));
+            Log.d("g53mdp",recipesInDB[count]+count);
+            count++;
+        }
+
+        for(int i=0;i<recipesSize;i++){
+            if(recipesInDB[i]==null){
+                recipesInDB[i]=" ";
+            }
+        }
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recipesInDB);
+        search.setAdapter(adapter);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,DisplayRecipe.class);
+                intent.putExtra("recipeTitle",search.getText().toString());
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void initialComponent(){
+        listView=(ListView)findViewById(R.id.recipes);
+        add=(Button)findViewById(R.id.add);
+        searchButton=(Button)findViewById(R.id.searchButton);
+        search=(AutoCompleteTextView)findViewById(R.id.search);
+
     }
 
 

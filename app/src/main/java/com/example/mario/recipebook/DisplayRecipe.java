@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class DisplayRecipe extends AppCompatActivity implements View.OnClickListener {
 
     private int chosenRecipe;
+    private String chosenRecipeTitle;
     private Cursor cursor;
 
     private EditText title;
@@ -28,30 +29,20 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
     private Button deleteRecipe;
     private Button save;
 
+    private String recipeTitle;
+    private String recipeIntro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_recipe);
 
-        Bundle bundle=getIntent().getExtras();
-        chosenRecipe=bundle.getInt("chosenRecipe")+1;
-        Log.d("g53mdp","chosen Recipte: "+chosenRecipe);
-
-        initialComponent();
-
-        String[] projection=new String[]{
-                MyProviderContract._ID,
-                MyProviderContract.TITLE,
-                MyProviderContract.INSTRUCTION
-        };
-        cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);
-        for (int i=0;i<chosenRecipe;i++){
-            cursor.moveToNext();
+        if(getIntent().getStringExtra("recipeTitle")==null){
+            displayById();
+        }else {
+            displayByTitle();
         }
-        String recipeTitle =cursor.getString(cursor.getColumnIndex(MyProviderContract.TITLE));
-        title.setText(recipeTitle);
-        String recipeIntro=cursor.getString(cursor.getColumnIndex(MyProviderContract.INSTRUCTION));
-        intro.setText(recipeIntro);
+
 
         deleteRecipe.setOnClickListener(this);
         editRecipe.setOnClickListener(this);
@@ -59,6 +50,52 @@ public class DisplayRecipe extends AppCompatActivity implements View.OnClickList
 
 
     }
+
+    public void displayById(){
+        Bundle bundle=getIntent().getExtras();
+        chosenRecipe=bundle.getInt("chosenRecipe")+1;
+        Log.d("g53mdp","chosen Recipte: "+chosenRecipe);
+
+        initialComponent();
+
+        getAllRecipes();
+
+        for (int i=0;i<chosenRecipe;i++){
+            cursor.moveToNext();
+        }
+        recipeTitle =cursor.getString(cursor.getColumnIndex(MyProviderContract.TITLE));
+        title.setText(recipeTitle);
+        recipeIntro=cursor.getString(cursor.getColumnIndex(MyProviderContract.INSTRUCTION));
+        intro.setText(recipeIntro);
+    }
+
+    public void displayByTitle(){
+        chosenRecipeTitle=getIntent().getStringExtra("recipeTitle");
+        initialComponent();
+
+        getAllRecipes();
+
+        while (cursor.moveToNext()){
+            if(chosenRecipeTitle.equals(cursor.getString(cursor.getColumnIndex(MyProviderContract.TITLE)))){
+                recipeTitle =cursor.getString(cursor.getColumnIndex(MyProviderContract.TITLE));
+                recipeIntro=cursor.getString(cursor.getColumnIndex(MyProviderContract.INSTRUCTION));
+            }
+        }
+
+        title.setText(recipeTitle);
+        intro.setText(recipeIntro);
+
+    }
+
+    public void getAllRecipes(){
+        String[] projection=new String[]{
+                MyProviderContract._ID,
+                MyProviderContract.TITLE,
+                MyProviderContract.INSTRUCTION
+        };
+        cursor=getContentResolver().query(MyProviderContract.RECIPE_URI,projection,null,null,null);
+    }
+
 
     public void initialComponent(){
         title=(EditText) findViewById(R.id.chosenRecipeTitle);
